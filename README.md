@@ -20,5 +20,11 @@ npm i concurrently -D
 npm i wait-on -D
 npm i cross-env -D
 
+<!-- 安装插件：
+1、UI组件库：bootstrap
+ -->
+npm i bootstrap -D
 
 ### 目录结构
+main.js
+src

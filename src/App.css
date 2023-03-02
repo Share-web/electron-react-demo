@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.file-search{
+  background: yellowgreen;
+}
+.editor-container{
+  background: gray;
+}
