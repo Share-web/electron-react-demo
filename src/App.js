@@ -64,7 +64,7 @@ function App() {
       <div className='cloud-doc-container'>
         <div className='row'>
           <div className='col-6 file-search'>
-            <FileSearch title="我的云文档" onFileSearch={fileSearch}/>
+            <FileSearch title="my cloud document" onFileSearch={fileSearch}/>
           </div>
           <div className='col-6 editor-container'>col-6：right
           </div>
