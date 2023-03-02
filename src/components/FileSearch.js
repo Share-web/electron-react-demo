@@ -1,15 +1,40 @@
-import {useState} from 'react';
+import {useState,useEffect,useRef} from 'react';
+import useKeyPress from '../hooks/useKeyPress';
 
 function FileSearch({title,onFileSearch}) {
   const [value, setValue] = useState('')
   const [inputActive, setInputActive] = useState(false)
+  const enterPressed = useKeyPress(13);
+  const escPressed = useKeyPress(27);
+  let inputNode = useRef(null)
 
   // 关闭：重置搜索
-  const closeSearch =()=>{
+  const closeSearch =(active)=>{
     setInputActive(false);
     setValue('');
-    onFileSearch(value);
+    active && onFileSearch(value);
   }
+    // 任意值改变的常规操作:快捷键的操作集合
+    useEffect(()=>{
+      // console.log('快捷键的操作集合');// 出现3次
+      if(enterPressed && inputActive){
+        console.log('键盘按下enter+搜索框存在时');
+        closeSearch(true) 
+      }
+      if(escPressed && inputActive){
+        console.log('键盘按下esc+搜索框存在时');
+        closeSearch() 
+      }
+    })
+    // 只针对某些值改变的操作：自动获取焦点
+    useEffect(()=>{
+      // console.log('全局状态更新333',inputActive);// 出现3次
+      if(inputActive){
+        console.log('自动获取焦点');
+        inputNode.current.focus()
+      }
+    },[inputActive])
+
   // console.log(title,666);
   return (
     <div className="file-search-container">
@@ -21,8 +46,8 @@ function FileSearch({title,onFileSearch}) {
 
             <div className='d-flex justify-content-between align-items-center'>
               {inputActive && <div>
-                <input className='file-content-input' value={value} onChange={(e) => { setValue(e.target.value) }} />
-                <button type='button' className='btn btn-primary' onClick={() => { closeSearch() }}>关闭</button>
+                <input ref={inputNode} className='file-content-input' value={value} onChange={(e) => { setValue(e.target.value) }} />
+                <button type='button' className='btn btn-primary' onClick={() => { closeSearch(true) }}>关闭</button>
               </div>}
 
             </div>
