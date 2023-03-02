@@ -1,39 +1,40 @@
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LickButton from './components/LickButton.js';
-import { useState } from 'react';
+import FileSearch from './components/FileSearch.js';
+
+import {useState} from 'react';
+import {objToArr} from './utils/helper';
+import {v4 as uuidv4} from 'uuid';
 
 function App() {
-  const [value, setValue] = useState('')
-  const [inputActive, setInputActive] = useState(false)
+  const [files,setFiles]= useState({})
+  const filesArr = objToArr(files)
+
+  const createNewFile = () => {
+    const newID = uuidv4()
+    const newFile = {
+      id: newID,
+      title: '',
+      body: '## 请输出 Markdown',
+      createdAt: new Date().getTime(),
+      isNew: true,
+    }
+    setFiles({ ...files, [newID]: newFile })
+  }
+  const fileSearch = (kwd)=>{
+    const newFiles = filesArr.filter(file=>file.title.includes(kwd));
+    console.log(kwd,newFiles,'点击搜索');
+  }
   return (
     <div className="App container-fluid px-0">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        demo演示：
-      </header> */}
+
       <LickButton />
 
-      <div className='container'>
+      <div className='cloud-doc-container'>
         <div className='row'>
           <div className='col-6 file-search'>
-            {/* flex布局:内容两点对齐+子元素水平居中 */}
-
-            {!inputActive && <div>
-              <span>我的云文档</span>
-              <button type='button' className='btn btn-primary' onClick={() => { setInputActive(true) }}>搜索</button>
-            </div>}
-
-            <div className='d-flex justify-content-between align-items-center'>
-              {inputActive && <div>
-                <input className='file-content-input' value={value} onChange={(e) => { setValue(e.target.value) }} />
-                <button type='button' className='btn btn-primary' onClick={() => { setInputActive(false) }}>关闭</button>
-              </div>}
-
-            </div>
-            <button type='button' className='btn btn-primary'>新建</button>
-            <button className='btn btn-success'>导入</button>
+            <FileSearch title="我的云文档" onFileSearch={fileSearch}/>
           </div>
           <div className='col-6 editor-container'>col-6：right
           </div>
