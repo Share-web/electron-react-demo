@@ -7,6 +7,9 @@ import {useState,useEffect} from 'react';
 import {objToArr} from './utils/helper';
 import {v4 as uuidv4} from 'uuid';
 
+// const fs = require('fs'); // webpack拦截了commund.js模块
+// const fs = window.require('fs');// 引入node.js原生模块
+// console.dir(fs,666);
 function App() {
   const [files,setFiles]= useState({});// 初始化读取已有文件列表
   const filesArr = objToArr(files)
